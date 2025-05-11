@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignments | Student Progress Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>All Assignments</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/assignments" class="active">Assignments</a></li>
+        <li><a href="/dashboard">Multi-View Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <div class="assignments-container">
+      <% if (assignments && assignments.length > 0) { %>
+        <div class="assignment-grid">
+          <% assignments.forEach(assignment => { %>
+            <div class="assignment-card">
+              <h3><a href="/assignment/<%= assignment.assignment_id %>"><%= assignment.assignment_name %></a></h3>
+              <div class="assignment-stats">
+                <div class="stat">
+                  <span class="label">Students:</span>
+                  <span class="value"><%= assignment.students_joined || 0 %></span>
+                </div>
+                <div class="stat">
+                  <span class="label">Tries:</span>
+                  <span class="value"><%= assignment.number_of_tries || 0 %></span>
+                </div>
+                <div class="stat">
+                  <span class="label">Correct:</span>
+                  <span class="value"><%= assignment.overall_percent_correct ? Math.round(assignment.overall_percent_correct) + '%' : '0%' %></span>
+                </div>
+              </div>
+              <a href="/assignment/<%= assignment.assignment_id %>" class="view-btn">View Details</a>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="no-data">
+          <p>No assignments found.</p>
+        </div>
+      <% } %>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Student Progress Dashboard</p>
+  </footer>
+</body>
+</html>

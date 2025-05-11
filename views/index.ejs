@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Progress Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Student Progress Dashboard</h1>
+    <nav>
+      <ul>
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/assignments">Assignments</a></li>
+        <li><a href="/dashboard">Multi-View Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <div class="welcome-panel">
+      <h2>Welcome to the Student Progress Dashboard</h2>
+      <p>Track student progress across multiple assignments in real-time.</p>
+      
+      <div class="card-container">
+        <a href="/assignments" class="card">
+          <h3>View All Assignments</h3>
+          <p>See a list of all recent live assignments with overall statistics.</p>
+        </a>
+        
+        <a href="/dashboard" class="card">
+          <h3>Multi-View Dashboard</h3>
+          <p>Monitor multiple assignments simultaneously in a customizable view.</p>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Student Progress Dashboard</p>
+  </footer>
+</body>
+</html>

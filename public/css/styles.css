@@ -1,0 +1,491 @@
+/* Global Styles */
+:root {
+  --primary-color: #4a6fa5;
+  --secondary-color: #6bb46c;
+  --accent-color: #f39c12;
+  --text-color: #333;
+  --background-color: #f5f7fa;
+  --card-bg-color: #fff;
+  --border-color: #e1e5eb;
+  --correct-color: #6bb46c;
+  --incorrect-color: #e74c3c;
+  --remaining-color: #d5d9e0;
+  --header-height: 60px;
+  --footer-height: 40px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 2rem;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #fff;
+}
+
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+  width: 100%;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+footer {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 0.75rem;
+  height: var(--footer-height);
+  margin-top: auto;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button, .view-btn {
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .view-btn:hover {
+  background-color: #3a5a8f;
+  text-decoration: none;
+}
+
+.view-btn {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Home Page */
+.welcome-panel {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.welcome-panel h2 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.welcome-panel p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.card h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Assignments Page */
+.assignments-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.assignment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.assignment-card {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.assignment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.assignment-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.assignment-stats {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.assignment-stats .stat {
+  flex: 1;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.assignment-stats .label {
+  display: block;
+  font-size: 0.875rem;
+  color: #777;
+  margin-bottom: 0.25rem;
+}
+
+.assignment-stats .value {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Assignment Detail Page */
+.assignment-details {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.stats-summary {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  flex: 1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.students-progress-container {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.students-progress-container h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.students-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 1rem;
+}
+
+.student-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.student-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.student-info h3 {
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.score {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.progress-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background-color: var(--remaining-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.progress-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.progress-segment.correct {
+  background-color: var(--correct-color);
+}
+
+.progress-segment.incorrect {
+  background-color: var(--incorrect-color);
+}
+
+.progress-segment.remaining {
+  background-color: var(--remaining-color);
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #777;
+}
+
+/* Multi-view Dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height) - var(--footer-height) - 4rem);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-controls {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.layout-selector, .assignments-selector {
+  flex: 1;
+  min-width: 300px;
+}
+
+.layout-selector h3, .assignments-selector h3 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.layout-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.layout-btn {
+  flex: 1;
+  text-align: center;
+}
+
+.layout-btn.active {
+  background-color: var(--secondary-color);
+}
+
+.assignment-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.panel-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.panel-selector label {
+  width: 80px;
+}
+
+.panel-assignment-select {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.dashboard-panels {
+  flex: 1;
+  display: grid;
+  gap: 1rem;
+  overflow: auto;
+}
+
+.dashboard-panels.layout-1 {
+  grid-template-columns: 1fr;
+}
+
+.dashboard-panels.layout-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.dashboard-panels.layout-4 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.dashboard-panel {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-placeholder {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
+  font-style: italic;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.panel-header h3 {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow: auto;
+}
+
+.panel-students {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}

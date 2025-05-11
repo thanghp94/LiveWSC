@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-View Dashboard | Student Progress Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Multi-View Dashboard</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/assignments">Assignments</a></li>
+        <li><a href="/dashboard" class="active">Multi-View Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main class="dashboard-container">
+    <div class="dashboard-controls">
+      <div class="layout-selector">
+        <h3>Dashboard Layout</h3>
+        <div class="layout-options">
+          <button id="layout-1" class="layout-btn active">1 Panel</button>
+          <button id="layout-2" class="layout-btn">2 Panels</button>
+          <button id="layout-4" class="layout-btn">4 Panels</button>
+        </div>
+      </div>
+      
+      <div class="assignments-selector">
+        <h3>Select Assignments</h3>
+        <div id="assignment-selectors" class="assignment-selector-container">
+          <div class="panel-selector" data-panel="0">
+            <label for="panel-0-select">Panel 1:</label>
+            <select id="panel-0-select" class="panel-assignment-select">
+              <option value="">Select an assignment...</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="dashboard-panels" class="dashboard-panels layout-1">
+      <div class="dashboard-panel" id="panel-0">
+        <div class="panel-placeholder">
+          <p>Select an assignment for this panel</p>
+        </div>
+      </div>
+      <div class="dashboard-panel" id="panel-1">
+        <div class="panel-placeholder">
+          <p>Select an assignment for this panel</p>
+        </div>
+      </div>
+      <div class="dashboard-panel" id="panel-2">
+        <div class="panel-placeholder">
+          <p>Select an assignment for this panel</p>
+        </div>
+      </div>
+      <div class="dashboard-panel" id="panel-3">
+        <div class="panel-placeholder">
+          <p>Select an assignment for this panel</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Student Progress Dashboard</p>
+  </footer>
+  
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= assignment.assignment_name %> | Student Progress Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <header>
+    <h1><%= assignment.assignment_name %></h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/assignments">Assignments</a></li>
+        <li><a href="/dashboard">Multi-View Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <div class="assignment-details">
+      <div class="stats-summary">
+        <div class="stat-card">
+          <h3>Students</h3>
+          <div class="stat-value"><%= students.length %></div>
+        </div>
+        <div class="stat-card">
+          <h3>Completion</h3>
+          <div class="stat-value">
+            <% 
+              let completionRate = 0;
+              if (students.length > 0) {
+                let totalCompleted = 0;
+                students.forEach(student => {
+                  if (student.most_current_question_index && student.number_of_questions) {
+                    totalCompleted += student.most_current_question_index / student.number_of_questions;
+                  }
+                });
+                completionRate = Math.round((totalCompleted / students.length) * 100);
+              }
+            %>
+            <%= completionRate %>%
+          </div>
+        </div>
+        <div class="stat-card">
+          <h3>Accuracy</h3>
+          <div class="stat-value">
+            <% 
+              let accuracyRate = 0;
+              if (students.length > 0 && assignment.overall_percent_correct) {
+                accuracyRate = Math.round(assignment.overall_percent_correct);
+              }
+            %>
+            <%= accuracyRate %>%
+          </div>
+        </div>
+      </div>
+      
+      <div class="students-progress-container">
+        <h2>Student Progress</h2>
+        <div class="students-list" id="students-list">
+          <% if (students && students.length > 0) { %>
+            <% students.forEach(student => { %>
+              <div class="student-card" data-student-id="<%= student.student_id %>">
+                <div class="student-info">
+                  <h3><%= student.full_name %></h3>
+                  <div class="score"><%= student.total_score || 0 %> points</div>
+                </div>
+                <div class="progress-info">
+                  <div class="progress-text">
+                    <% 
+                      const currentQuestion = student.most_current_question_index || 0;
+                      const totalQuestions = student.number_of_questions || 0;
+                      const correctPercentage = student.percent_correct ? Math.round(student.percent_correct) : 0;
+                    %>
+                    <span><%= currentQuestion %>/<%= totalQuestions %>/<%= correctPercentage %>%</span>
+                  </div>
+                  <div class="progress-bar-container">
+                    <% 
+                      const correctQuestions = student.number_of_questions_correct || 0;
+                      const incorrectQuestions = (currentQuestion - correctQuestions) > 0 ? (currentQuestion - correctQuestions) : 0;
+                      const remainingQuestions = totalQuestions - currentQuestion > 0 ? (totalQuestions - currentQuestion) : 0;
+                      
+                      const correctWidth = totalQuestions > 0 ? (correctQuestions / totalQuestions) * 100 : 0;
+                      const incorrectWidth = totalQuestions > 0 ? (incorrectQuestions / totalQuestions) * 100 : 0;
+                      const remainingWidth = totalQuestions > 0 ? (remainingQuestions / totalQuestions) * 100 : 0;
+                    %>
+                    <div class="progress-bar">
+                      <div class="progress-segment correct" style="width: <%= correctWidth %>%"></div>
+                      <div class="progress-segment incorrect" style="width: <%= incorrectWidth %>%"></div>
+                      <div class="progress-segment remaining" style="width: <%= remainingWidth %>%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <div class="no-data">
+              <p>No student data available for this assignment.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Student Progress Dashboard</p>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const socket = io();
+      const assignmentId = '<%= assignment.assignment_id %>';
+      
+      // Start watching this assignment for updates
+      socket.emit('watchAssignment', assignmentId);
+      
+      // Handle updates from the server
+      socket.on('assignmentUpdate', (data) => {
+        if (data.assignmentId === assignmentId) {
+          updateStudentsList(data.students);
+        }
+      });
+      
+      function updateStudentsList(students) {
+        const studentsList = document.getElementById('students-list');
+        
+        if (!students || students.length === 0) {
+          studentsList.innerHTML = '<div class="no-data"><p>No student data available for this assignment.</p></div>';
+          return;
+        }
+        
+        let html = '';
+        students.forEach(student => {
+          const currentQuestion = student.most_current_question_index || 0;
+          const totalQuestions = student.number_of_questions || 0;
+          const correctPercentage = student.percent_correct ? Math.round(student.percent_correct) : 0;
+          
+          const correctQuestions = student.number_of_questions_correct || 0;
+          const incorrectQuestions = (currentQuestion - correctQuestions) > 0 ? (currentQuestion - correctQuestions) : 0;
+          const remainingQuestions = totalQuestions - currentQuestion > 0 ? (totalQuestions - currentQuestion) : 0;
+          
+          const correctWidth = totalQuestions > 0 ? (correctQuestions / totalQuestions) * 100 : 0;
+          const incorrectWidth = totalQuestions > 0 ? (incorrectQuestions / totalQuestions) * 100 : 0;
+          const remainingWidth = totalQuestions > 0 ? (remainingQuestions / totalQuestions) * 100 : 0;
+          
+          html += `
+            <div class="student-card" data-student-id="${student.student_id}">
+              <div class="student-info">
+                <h3>${student.full_name}</h3>
+                <div class="score">${student.total_score || 0} points</div>
+              </div>
+              <div class="progress-info">
+                <div class="progress-text">
+                  <span>${currentQuestion}/${totalQuestions}/${correctPercentage}%</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar">
+                    <div class="progress-segment correct" style="width: ${correctWidth}%"></div>
+                    <div class="progress-segment incorrect" style="width: ${incorrectWidth}%"></div>
+                    <div class="progress-segment remaining" style="width: ${remainingWidth}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        studentsList.innerHTML = html;
+      }
+    });
+  </script>
+</body>
+</html>
