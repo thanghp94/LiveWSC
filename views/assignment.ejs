@@ -21,6 +21,18 @@
   
   <main>
     <div class="assignment-details">
+      <% if (typeof isPlaceholder !== 'undefined' && isPlaceholder) { %>
+        <div class="alert alert-warning">
+          <p><strong>Note:</strong> Showing placeholder data. The database views needed for this application are not available.</p>
+          <% if (typeof notFound !== 'undefined' && notFound) { %>
+            <p><strong>Note:</strong> The requested assignment was not found. Displaying example data instead.</p>
+          <% } %>
+          <% if (typeof error !== 'undefined' && error) { %>
+            <p><strong>Error:</strong> <%= error %></p>
+          <% } %>
+        </div>
+      <% } %>
+
       <div class="stats-summary">
         <div class="stat-card">
           <h3>Students</h3>
@@ -29,7 +41,7 @@
         <div class="stat-card">
           <h3>Completion</h3>
           <div class="stat-value">
-            <% 
+            <%
               let completionRate = 0;
               if (students.length > 0) {
                 let totalCompleted = 0;
@@ -47,7 +59,7 @@
         <div class="stat-card">
           <h3>Accuracy</h3>
           <div class="stat-value">
-            <% 
+            <%
               let accuracyRate = 0;
               if (students.length > 0 && assignment.overall_percent_correct) {
                 accuracyRate = Math.round(assignment.overall_percent_correct);
@@ -57,7 +69,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="students-progress-container">
         <h2>Student Progress</h2>
         <div class="students-list" id="students-list">
@@ -70,7 +82,7 @@
                 </div>
                 <div class="progress-info">
                   <div class="progress-text">
-                    <% 
+                    <%
                       const currentQuestion = student.most_current_question_index || 0;
                       const totalQuestions = student.number_of_questions || 0;
                       const correctPercentage = student.percent_correct ? Math.round(student.percent_correct) : 0;
@@ -78,11 +90,11 @@
                     <span><%= currentQuestion %>/<%= totalQuestions %>/<%= correctPercentage %>%</span>
                   </div>
                   <div class="progress-bar-container">
-                    <% 
+                    <%
                       const correctQuestions = student.number_of_questions_correct || 0;
                       const incorrectQuestions = (currentQuestion - correctQuestions) > 0 ? (currentQuestion - correctQuestions) : 0;
                       const remainingQuestions = totalQuestions - currentQuestion > 0 ? (totalQuestions - currentQuestion) : 0;
-                      
+
                       const correctWidth = totalQuestions > 0 ? (correctQuestions / totalQuestions) * 100 : 0;
                       const incorrectWidth = totalQuestions > 0 ? (incorrectQuestions / totalQuestions) * 100 : 0;
                       const remainingWidth = totalQuestions > 0 ? (remainingQuestions / totalQuestions) * 100 : 0;

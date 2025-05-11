@@ -20,6 +20,15 @@
   
   <main>
     <div class="assignments-container">
+      <% if (typeof isPlaceholder !== 'undefined' && isPlaceholder) { %>
+        <div class="alert alert-warning">
+          <p><strong>Note:</strong> Showing placeholder data. The database views needed for this application are not available.</p>
+          <% if (typeof error !== 'undefined' && error) { %>
+            <p><strong>Error:</strong> <%= error %></p>
+          <% } %>
+        </div>
+      <% } %>
+
       <% if (assignments && assignments.length > 0) { %>
         <div class="assignment-grid">
           <% assignments.forEach(assignment => { %>

@@ -20,6 +20,12 @@
   </header>
   
   <main class="dashboard-container">
+    <% if (typeof isPlaceholder !== 'undefined' && isPlaceholder) { %>
+      <div class="alert alert-warning">
+        <p><strong>Note:</strong> The database views needed for this application are not available. The dashboard will show placeholder data.</p>
+      </div>
+    <% } %>
+
     <div class="dashboard-controls">
       <div class="layout-selector">
         <h3>Dashboard Layout</h3>
@@ -29,7 +35,7 @@
           <button id="layout-4" class="layout-btn">4 Panels</button>
         </div>
       </div>
-      
+
       <div class="assignments-selector">
         <h3>Select Assignments</h3>
         <div id="assignment-selectors" class="assignment-selector-container">
